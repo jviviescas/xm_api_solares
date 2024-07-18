@@ -1,9 +1,10 @@
-from datetime import datetime as dt
+import plotly.graph_objects as go
 
-hora = '2018-12-140'
+fig = go.Figure(
+    data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])],
+    layout=go.Layout(
+        title=go.layout.Title(text="A Figure Specified By A Graph Object")
+    )
+)
 
-
-hora = dt.strptime(hora, '%Y-%m-%d%H')
-
-
-print(hora)
+fig.show()

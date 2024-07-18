@@ -1,8 +1,5 @@
-import os
-
-import pandas as pd
-from config import *
-from data_plants import get_data_of_plants_by_daily_metrics, get_data_of_plants_by_hourly_metrics
+from scripts import export_data_by_concept, get_deviation, plot_excel
+from config import TEMP_PATH, IMAGE_PATH
 
 SOLAR_PLANTS = [
     "3DDT",  # LATAM SOLAR LA LOMA, FPO: 2024-06-24
@@ -18,47 +15,72 @@ SOLAR_PLANTS = [
     # "GYPO", #GUAYEPO, FPO: 2022-09-30
 ]
 
+HOUR_VARS = [
+    "Gene",
+    "DispoDeclarada",
+    "DispoCome",
+    "GeneProgDesp",
+    "GeneProgRedesp",
+    "PrecOferDesp",
+    "DesvGenVariableDesp",
+    "DesvGenVariableRedesp",
+]
+
+DAILY_VARS = [
+    "IrrPanel",
+    "IrrGlobal",
+    "TempAmbSolar",
+]
+
+OPERATION_DATE = {
+    "TPUY": "2024-06-12",
+    "3IRX": "2024-03-08",
+    "3HF5": "2024-06-24",
+    "MATA": "2024-06-27",
+    "3IZ6": "2024-06-19",
+    "3DDT": "2024-06-24",
+    "EPFV": "2024-03-23"
+}
+
 
 def main():
-    hour_variables = [
-        "Gene",
-        "DispoDeclarada",
-        "DispoCome",
-        "GeneProgDesp",
-        "GeneProgRedesp",
-        "PrecOferDesp",
-        "DesvGenVariableDesp",
-        "DesvGenVariableRedesp",
-    ]
+    init_date = "2024-01-01"
+    end_date = "2024-07-18"
+    data_file_name = "data_by_concept"
+    deviation_file_name = "desviaciones"
 
-    daily_variables = [
-        "IrrPanel",
-        "IrrGlobal",
-        "TempAmbSolar",
-    ]
+    # export_data_by_concept(
+    #     SOLAR_PLANTS,
+    #     HOUR_VARS,
+    #     DAILY_VARS,
+    #     init_date,
+    #     end_date,
+    #     data_file_name
+    # )
 
-    hour_data = get_data_of_plants_by_hourly_metrics(
-        hour_variables,
-        SOLAR_PLANTS,
-        "2023-01-01",
-        "2024-07-01"
+    # get_deviation(
+    #     data_file_name,
+    #     deviation_file_name,
+    #     HOUR_VARS[0],
+    #     HOUR_VARS[3],
+    #     HOUR_VARS[4],
+    #     OPERATION_DATE
+    # )
+
+    # plot_excel(
+    #     deviation_file_name,
+    #     "desvGeneProgDesp_by_plant",
+    #     export_path=IMAGE_PATH,
+    #     title="Desviación de la generación programada despacho",
+    #     title_eje_y="Desviación"
+    # )
+
+    plot_excel(
+        "error_magnitude_consolidated",
+        export_path=IMAGE_PATH,
+        title="Error en la desviación",
+        title_eje_y="Desviación"
     )
-
-    daily_data = get_data_of_plants_by_daily_metrics(
-        daily_variables,
-        SOLAR_PLANTS,
-        "2023-01-01",
-        "2024-07-01"
-    )
-
-    # Join data
-    hour_data.update(daily_data)
-
-    # Save daily data
-    path_to_save = os.path.join(TEMP_PATH, "data.xlsx")
-    with pd.ExcelWriter(path_to_save) as writer:
-        for key, value in hour_data.items():
-            value.to_excel(writer, sheet_name=key)
 
 
 if __name__ == '__main__':
