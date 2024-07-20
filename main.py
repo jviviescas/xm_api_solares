@@ -76,10 +76,13 @@ def main():
     # )
 
     plot_excel(
-        "error_magnitude_consolidated",
+        "data_by_concept",
+        sheet_name="2024-03-28",
         export_path=IMAGE_PATH,
-        title="Error en la desviación",
-        title_eje_y="Desviación"
+        export_file_name="energia_el_paso_2024-03-28",
+        title="El Paso 2024-03-28",
+        title_eje_x="Hora",
+        title_eje_y="Energía [kWh]"
     )
 
 
