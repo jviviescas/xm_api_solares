@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from data_plants import get_data_of_plants_by_daily_metrics, get_data_of_plants_by_hourly_metrics
+from data_plants import *
 from config import TEMP_PATH
 
 
@@ -12,6 +12,7 @@ def export_data_by_concept(
     start_date: str,
     end_date: str,
     file_name: str,
+    hour_system_variables: list[str] = [],
 ):
 
     hour_data = get_data_of_plants_by_hourly_metrics(
@@ -28,8 +29,15 @@ def export_data_by_concept(
         end_date
     )
 
+    hour_system_data = get_data_of_system_by_hourly_metrics(
+        hour_system_variables,
+        start_date,
+        end_date
+    )
+
     # Join data
     hour_data.update(daily_data)
+    hour_data.update(hour_system_data)
 
     # Save daily data
     path_to_save = os.path.join(TEMP_PATH, f"{file_name}.xlsx")

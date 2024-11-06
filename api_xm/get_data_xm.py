@@ -137,7 +137,7 @@ if __name__ == '__main__':
     )
 
     get_data.post_request()
-    get_data.export_excel('ListadoRecursos1')
+    get_data.export_excel('listado_recursos')
     exit()
 
     get_data = GetDataAPI(
