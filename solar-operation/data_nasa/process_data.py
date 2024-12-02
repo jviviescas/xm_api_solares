@@ -3,7 +3,7 @@ import os
 
 import pandas as pd
 
-from main import SOLAR_PLANTS
+from test import SOLAR_PLANTS
 from config import TEMP_PATH
 
 

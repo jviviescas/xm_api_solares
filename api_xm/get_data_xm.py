@@ -1,12 +1,10 @@
+import os
+import json
 import datetime as dt
 from typing import Literal
-import os
+
 import requests
-import json
-
 import pandas as pd
-
-import config
 
 
 class GetDataAPI():
@@ -111,8 +109,8 @@ class GetDataAPI():
 
         return
 
-    def export_excel(self, name):
-        directory = os.path.join(config.TEMP_PATH, f'{name}.xlsx')
+    def export_excel(self, name, path):
+        directory = os.path.join(path, f'{name}.xlsx')
         self.data.to_excel(directory)
 
         return
@@ -137,7 +135,7 @@ if __name__ == '__main__':
     )
 
     get_data.post_request()
-    get_data.export_excel('listado_recursos')
+    get_data.export_excel('listado_recursos', './temp')
     exit()
 
     get_data = GetDataAPI(
